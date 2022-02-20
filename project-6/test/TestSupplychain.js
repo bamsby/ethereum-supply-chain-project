@@ -9,12 +9,12 @@ contract('SupplyChain', async accounts => {
     let upc = 1;
     const ownerID = accounts[0];
     const originFarmerID = accounts[1];
-    const originFarmName = "John Doe";
-    const originFarmInformation = "Yarray Valley";
-    const originFarmLatitude = "-38.239770";
-    const originFarmLongitude = "144.341490";
+    const originFarmName = "Chris Chua";
+    const originFarmInformation = "Singapore Mountain";
+    const originFarmLatitude = "1.297578";
+    const originFarmLongitude = "103.341490";
     let productID = sku + upc;
-    const productNotes = "Best beans for dark chocolate";
+    const productNotes = "Best beans for pure coffee";
     const productPrice = web3.utils.toWei('1', "ether");
     let itemState = 0;
     const distributorID = accounts[2];
@@ -51,7 +51,7 @@ contract('SupplyChain', async accounts => {
         supplyChain.addConsumer(consumerID);
     });
     // 1st Test
-    it("Testing smart contract function harvestItem() that allows a farmer to harvest cacao", async () => {
+    it("Testing smart contract function harvestItem() that allows a farmer to harvest coffee", async () => {
         const supplyChain = await SupplyChain.deployed();
         // Mark an item as Harvested by calling function harvestItem()
         let tx = await supplyChain.harvestItem(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes, {from: originFarmerID});
@@ -72,7 +72,7 @@ contract('SupplyChain', async accounts => {
     });
 
 // 2nd Test
-    it("Testing smart contract function processItem() that allows a farmer to process cacao", async () => {
+    it("Testing smart contract function processItem() that allows a farmer to process coffee", async () => {
         const supplyChain = await SupplyChain.deployed();
         // Mark an item as Processed by calling function processItem()
         let tx = await supplyChain.processItem(upc, {from: originFarmerID});
@@ -93,7 +93,7 @@ contract('SupplyChain', async accounts => {
     });
 
 // 3rd Test
-    it("Testing smart contract function packItem() that allows a farmer to pack cacao", async () => {
+    it("Testing smart contract function packItem() that allows a farmer to pack coffee", async () => {
         const supplyChain = await SupplyChain.deployed();
         let tx = await supplyChain.packItem(upc, {from: originFarmerID});
         truffleAssert.eventEmitted(tx, 'Packed');
@@ -113,7 +113,7 @@ contract('SupplyChain', async accounts => {
     });
 
 // 4th Test
-    it("Testing smart contract function sellItem() that allows a farmer to sell cacao", async () => {
+    it("Testing smart contract function sellItem() that allows a farmer to sell coffee", async () => {
         const supplyChain = await SupplyChain.deployed();
         let tx = await supplyChain.sellItem(upc, productPrice, {from: originFarmerID});
         truffleAssert.eventEmitted(tx, 'ForSale');
@@ -134,7 +134,7 @@ contract('SupplyChain', async accounts => {
     });
 
 // 5th Test
-    it("Testing smart contract function buyItem() that allows a distributor to buy cacao", async () => {
+    it("Testing smart contract function buyItem() that allows a distributor to buy coffee", async () => {
         const supplyChain = await SupplyChain.deployed();
         let tx = await supplyChain.buyItem(upc, {from: distributorID, value: productPrice});
         truffleAssert.eventEmitted(tx, 'Sold');
@@ -154,7 +154,7 @@ contract('SupplyChain', async accounts => {
     });
 
 // 6th Test
-    it("Testing smart contract function shipItem() that allows a distributor to ship cacao", async () => {
+    it("Testing smart contract function shipItem() that allows a distributor to ship coffee", async () => {
         const supplyChain = await SupplyChain.deployed();
         let tx = await supplyChain.shipItem(upc, {from: distributorID});
         truffleAssert.eventEmitted(tx, 'Shipped');
@@ -175,7 +175,7 @@ contract('SupplyChain', async accounts => {
     });
 
 // 7th Test
-    it("Testing smart contract function receiveItem() that allows a retailer to mark cacao received", async () => {
+    it("Testing smart contract function receiveItem() that allows a retailer to mark coffee received", async () => {
         const supplyChain = await SupplyChain.deployed();
         let tx = await supplyChain.receiveItem(upc, {from: retailerID});
         truffleAssert.eventEmitted(tx, 'Received');
@@ -195,7 +195,7 @@ contract('SupplyChain', async accounts => {
     });
 
 // 8th Test
-    it("Testing smart contract function purchaseItem() that allows a consumer to purchase cacao", async () => {
+    it("Testing smart contract function purchaseItem() that allows a consumer to purchase coffee", async () => {
         const supplyChain = await SupplyChain.deployed();
         let tx = await supplyChain.purchaseItem(upc, {from: consumerID});
         truffleAssert.eventEmitted(tx, 'Purchased');
